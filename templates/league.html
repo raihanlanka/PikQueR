@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+
+{%for i in resultleague %}
+<p><h4><a style="color: white" href="{{i.categoryname|cut:' '}}">{{i.categoryname}}</a></h4></p>
+	
+{%endfor%}
+
+</body>
+</html>
+
+
+{% endblock %}

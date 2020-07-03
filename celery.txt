@@ -1,0 +1,10 @@
+1 brew install redis
+2 redis-server
+3 redis-cli ping     # test if reddis is working , PONG is printed its working
+4 celery -A myproject worker -l info -B (for develepment)
+
+
+
+
+
+brew install mysql

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<table>
+	<tr>
+		<th>League Name</th>
+		<th>Credits</th>
+		<th></th>
+	</tr>
+
+{% if messages %}
+{%for message in messages %}
+<div class="alert">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+  <strong>{{message}}<a href="">Buy Credits</a></strong>
+</div>
+{%endfor%}
+{% endif%}
+
+{%for key,value in  leagues.items %}
+	<form method="POST"  action="{{key|cut:' '|add:'Add'}}">{% csrf_token %}
+		<tr style="height: 120px">
+			<td><b><a href="{{key|cut:' '|add:'Winners'}}">{{key}}</a></b></td>
+			<td><b>{{value}}</b></td>
+			{% if key|cut:' ' in resultleague %}
+			<td>Member</td>
+
+			{%else%}
+			<td><button value="{{key}}" onclick="return confirm('You will be credited {{value}}\n Are u sure?')" name="league" >Join</button></td>
+			{%endif%}
+		</tr>
+	</form>
+{%endfor%}
+	
+</table>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Previous Winners:</h2>
+{% regroup previouswinners by leaguescore as winners_list%} 
+<table>
+  <tr>
+    <th>Player</th>
+    <th>League Score</th>
+    <th>Rankings</th>
+  </tr>
+  {% for i in winners_list %}
+  {% for each in i.list %}
+  {% if each.winnerleaguename == "Random League" %}
+  <tr>
+    {%if each.username == request.user %}
+      <td style="color:red;">{{each}}</td>
+      <td>{{each.leaguescore}}</td>
+      <td>---</td>
+    {%else%}
+      <td style="font: bold;">{{each.winningmembers}}</td>
+      <td>{{each.leaguescore}}</td>
+      <td>---</td>
+    {%endif%}
+  </tr>
+  {%else%}
+  <tr>
+    {%if each.username == request.user %}
+      <td style="color:red;">{{each}}</td>
+      <td>{{each.leaguescore}}</td>
+      <td>{{forloop.parentloop.counter}}</td>
+    {%else%}
+      <td style="font: bold;">{{each.winningmembers}}</td>
+      <td>{{each.leaguescore}}</td>
+      <td>{{forloop.parentloop.counter}}</td>
+    {%endif%}
+  </tr>
+  {%endif%}
+
+    {%endfor%}
+    {% endfor %}
+</table>
+{% endblock %}

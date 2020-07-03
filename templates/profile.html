@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+
+.delete-image {
+  background: grey;
+  border-radius: 25px;
+  font-size: 15px;
+  margin-left: 66%;
+  border: none;
+}
+
+</style>
+</head>
+<body>
+<header>
+
+  <div class="profilecontainer">
+
+    <div class="profile">
+
+      <div class="profile-image">
+
+        <img src="{{userprofile.Profile.profilepicture.url}}">
+
+        <form method="POST" action="http://127.0.0.1:8000/Accounts/update_profile_pic" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" onchange='this.form.submit()' value="">
+        </form>
+
+        
+
+      </div>
+
+      <div class="profile-user-settings">
+
+        <span style="font-size: 3rem;color: red">{{userprofile.Profile.profilestatus}}  </span>  <h1 class="profile-user-name">{{userprofile}}</h1>
+
+
+
+        <form method="POST" style="display:inline-block">{% csrf_token %}
+
+          {% if request.user == userprofile %}
+
+          <button class="btn profile-edit-btn">Edit Profile</button>
+
+          {% elif userprofile in request.user.fans.get.fanned.all %}
+
+            <button value="{{userprofile}}" name="fanrequest" class="btn profile-edit-btn">UnFan</button>
+
+          {% else %}
+
+            <button value="{{userprofile}}" name="fanrequest" class="btn profile-edit-btn" >Fan</button>
+
+          {% endif %}
+        
+        </form>
+
+      <div class="profile-stats">
+
+        <ul>
+          <li><span class="profile-stat-count">{{userprofile.PostDetail.count}}</span> posts</li>
+          <li><span class="profile-stat-count">{{userprofile.fanned.filter.count|add:"-1"}}</span> fans</li>
+          <li><span class="profile-stat-count">{{userprofile.fans.get.fanned.all.count|add:'-1'}}</span> fanned</li>
+          <li><span class="profile-stat-count">{{userprofile.Profile.profilescore|floatformat:2}}</span> Profile Score</li>
+          <li><span class="profile-stat-count">{{userprofile.Profile.leaguescore|floatformat:2}}</span> Weekly Score</li>
+          <li><span class="profile-stat-count">{{userprofile.Profile.dailyleaguescore|floatformat:1}}</span> Daily Score</li>
+          <li><span class="profile-stat-count">{{userprofile.Profile.piccredits}}</span> PRC</li>
+        </ul>
+
+      </div>
+
+      <div class="profile-bio">
+
+        <p><span class="profile-real-name">Full Name</span> Description   ..............</p>
+
+      </div>
+
+    </div>
+    <!-- End of profile section -->
+
+  </div>
+  <!-- End of container -->
+
+</header>
+
+
+{% for i in posts %}
+<div class="timeline">
+
+  {% if forloop.counter0|divisibleby:2 %}
+
+    <div class="container left">
+      <div class="content">
+
+        <img class="roundavatar" src="{{i.username.Profile.profilepicture.url}}">
+        <a style="font-size: 20px;font-weight: bold;text-decoration: none" href="u/{{i.username}}">{{i.username}}</a>
+        
+        <form style="display:inline;" method="POST" action="http://127.0.0.1:8000/Posts/delete_post">{% csrf_token %}
+            <button class="delete-image" value="{{i.id}}" name="postid">X</button>
+        </form>
+
+        <img src="{{i.postpicture.url}}" class="img_responsive"><br>{{i.timesince}} ago<br>
+        
+        <div>
+          {% load ratings %}
+          {% ratings i %}
+        </div>
+        
+        <a style="text-decoration: none" href="http://127.0.0.1:8000/Posts/Comments/{{i.id}}">Comments</a>: <b>{{ i.comments.count }}</b><br>
+        
+        <div>
+          <form method="POST" class="post-form" action="http://127.0.0.1:8000/Posts/addcomment">{% csrf_token %}
+          <div class="row">
+            <div class="col-75">
+              <input type="text" name="text" placeholder="Add comment.. " required>
+            </div>
+            <div>
+              <button type="comment" value="{{i.id}}" name="postid" class="save btn btn-default">Comment</button>
+            </div>
+          </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  {% else %}
+
+    <div class="container right">
+      <div class="content">
+
+        <img class="roundavatar" src="{{i.username.Profile.profilepicture.url}}">
+        <a style="font-size: 20px;font-weight: bold;text-decoration: none" href="u/{{i.username}}">{{i.username}}</a>
+        
+        <form style="display:inline;" method="POST" action="http://127.0.0.1:8000/Posts/delete_post">{% csrf_token %}
+            <button class="delete-image" onclick="window.location.href='www.example.com'" value="{{i.id}}">X</button>
+        </form>
+
+        <img src="{{i.postpicture.url}}" class="img_responsive"><br>{{i.timesince}} ago<br>
+        
+        <div>
+          {% load ratings %}
+          {% ratings i %}
+        </div>
+        
+        <a style="text-decoration: none" href="http://127.0.0.1:8000/Posts/Comments/{{i.id}}">Comments</a>: <b>{{ i.comments.count }}</b><br>
+        
+       
+
+        <div>
+          <form method="POST" class="post-form" action="http://127.0.0.1:8000/Posts/addcomment">{% csrf_token %}
+          <div class="row">
+            <div class="col-75">
+              <input type="text" name="text" placeholder="Add comment.. " required>
+            </div>
+            <div>
+              <button type="comment" value="{{i.id}}" name="postid" class="save btn btn-default">Comment</button>
+            </div>
+          </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+
+  {%endif%} 
+
+</div>
+{% endfor %}
+</body>
+</html>
+
+
+{% endblock %}

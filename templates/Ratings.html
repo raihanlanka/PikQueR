@@ -1,0 +1,20 @@
+3 star={{picdetails.users_stared3.count}}<br>
+2 star={{picdetails.users_stared2.count}}<br>
+1 star={{picdetails.users_stared1.count}}<br>
+
+
+
+{% for person in picdetails.users_stared3.all %}
+{{person}}(3)<br>
+{%endfor%}
+
+
+{% for person in picdetails.users_stared2.all %}
+{{person}}(2)<br>
+{%endfor%}
+
+
+
+{% for person in picdetails.users_stared1.all %}
+{{person}}(1)<br>
+{%endfor%}

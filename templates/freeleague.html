@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+</style>
+</head>
+<body>
+
+<h2>Previous Winners:</h2>
+{% regroup previouswinners by leaguescore as winners_list%} 
+<table>
+  <tr>
+    <th>Player</th>
+    <th>League Score</th>
+    <th>Rankings</th>
+  </tr>
+  {% for i in winners_list %}
+  {% for each in i.list %}
+  <tr>
+    {%if each.username == request.user %}
+      <td style="color:red;">{{each}}</td>
+      <td>{{each.leaguescore}}</td>
+      <td>{{forloop.parentloop.counter}}</td>
+    {%else%}
+      <td style="font: bold;">{{each.winningmembers}}</td>
+      <td>{{each.leaguescore}}</td>
+      <td>{{forloop.parentloop.counter}}</td>
+    {%endif%}
+  </tr>
+    {%endfor%}
+    {% endfor %}
+</table>
+
+
+
+
+<h2>Free League:</h2>
+{% regroup users by leaguescore as users_list%} 
+
+<table>
+  <tr>  
+    <th>Player</th>
+    <th>League Score</th>
+    <th>Rankings</th>
+  </tr>
+  <tr>
+    {% for i in users_list %}
+    {% for each in i.list %}
+    {%if each.username == request.user %}
+      <td style="color:red;">{{each}}({{each.profilestatus}})</td>
+      <td>{{each.leaguescore}}</td>
+      <td>{{forloop.parentloop.counter}}</td>
+    {%endif%}
+    {%endfor%}
+    {% endfor %} 
+      
+  </tr>
+  {% for i in users_list %}
+  {% for each in i.list %}
+  <tr>
+    {%if each.username == request.user %}
+    
+    {%else%}
+      <td style="font: bold;">{{each}}({{each.profilestatus}})</td>
+      <td>{{each.leaguescore}}</td>
+      <td>{{forloop.parentloop.counter}}</td>
+    {%endif%}
+  </tr>
+    {%endfor%}
+    {% endfor %} 
+</table>
+
+</body>
+</html>
+
+
+{% endblock %}

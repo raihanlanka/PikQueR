@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+<form method="POST">{% csrf_token %}
+	<h1>Create Team</h1>{{form}}<button>Create</button>
+	
+</form>
+<h1>Teams:</h1>
+{%for i in teams %}
+<h2>{{i}}<br>({%for j in i.members.all%}{{j}}{%endfor%})<br></h2><button>Join</button>
+{% endfor%}

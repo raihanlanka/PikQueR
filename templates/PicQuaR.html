@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+
+
+
+
+
+</style>
+</head>
+<body>
+
+{% for i in posts %}
+<div class="timeline">
+
+  {% if forloop.counter0|divisibleby:2 %}
+
+    <div class="container left">
+      <div class="content">
+
+        <img class="roundavatar" src="{{i.username.Profile.profilepicture.url}}">
+        <a style="font-size: 20px;font-weight: bold;text-decoration: none" href="u/{{i.username}}">{{i.username}}</a><br> 
+
+        <img src="{{i.postpicture.url}}" class="img_responsive"><br>{{i.timesince}} ago<br>
+        
+        <div>
+          {% load ratings %}
+          {% ratings i %}
+        </div>
+        
+        <a style="text-decoration: none" href="http://127.0.0.1:8000/Posts/Comments/{{i.id}}">Comments</a>: <b>{{ i.comments.count }}</b><br>
+        
+        <div>
+          <form method="POST" class="post-form" action="http://127.0.0.1:8000/Posts/addcomment">{% csrf_token %}
+          <div class="row">
+            <div class="col-75">
+              <input type="text" name="text" placeholder="Add comment.. " required>
+            </div>
+            <div>
+              <button type="comment" value="{{i.id}}" name="postid" class="save btn btn-default">Comment</button>
+            </div>
+          </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  {% else %}
+
+    <div class="container right">
+      <div class="content">
+
+        <img class="roundavatar" src="{{i.username.Profile.profilepicture.url}}">
+        <a style="font-size: 20px;font-weight: bold;text-decoration: none" href="u/{{i.username}}">{{i.username}}</a><br> 
+
+        <img src="{{i.postpicture.url}}" class="img_responsive"><br>{{i.timesince}} ago<br>
+        
+        <div>
+          {% load ratings %}
+          {% ratings i %}
+        </div>
+        
+        <a style="text-decoration: none" href="http://127.0.0.1:8000/Posts/Comments/{{i.id}}">Comments</a>: <b>{{ i.comments.count }}</b><br>
+        
+       
+
+        <div>
+          <form method="POST" class="post-form" action="http://127.0.0.1:8000/Posts/addcomment">{% csrf_token %}
+          <div class="row">
+            <div class="col-75">
+              <input type="text" name="text" placeholder="Add comment.. " required>
+            </div>
+            <div>
+              <button type="comment" value="{{i.id}}" name="postid" class="save btn btn-default">Comment</button>
+            </div>
+          </div>
+          </form>
+        </div>
+
+
+      </div>
+    </div>
+
+  {%endif%} 
+
+</div>
+{% endfor %}
+
+</body>
+</html>
+
+
+{% endblock %}
+

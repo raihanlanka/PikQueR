@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+{% regroup Rankings by profilescore as users_list%} 
+
+<table>
+  <tr>  
+    <th style="text-align: left">Player</th>
+    <th>Profile Score</th>
+    <th>Rankings</th>
+  </tr>
+  <tr>
+    {% for i in users_list %}
+    {% for each in i.list %}
+    {%if each.username == request.user %}
+      <td style="color:red;">{{each}}({{each.profilestatus}})</td>
+      <td style="color:red; text-align: center;">{{each.profilescore|floatformat:3}}</td>
+      <td style="color:red; text-align: center;">{{forloop.parentloop.counter}}</td>
+    {%endif%}
+    {%endfor%}
+    {% endfor %} 
+      
+  </tr>
+  {% for i in users_list %}
+  {% for each in i.list %}
+  <tr>
+    {%if each.username == request.user %}
+
+    {%else%}
+      <td style="font: bold;">{{each}}({{each.profilestatus}})</td>
+      <td style="text-align: center;">{{each.profilescore|floatformat:3}}</td>
+      <td style="text-align: center;">{{forloop.parentloop.counter}}</td>
+    {%endif%}
+  </tr>
+    {%endfor%}
+    {% endfor %} 
+</table>
+
+</body>
+</html>
+
+
+
+
+
+{% endblock %}

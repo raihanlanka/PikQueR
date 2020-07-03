@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for comment in picdetails.comments.all %}
+	<div class="comment">
+		<img style="width: 20px;height: 20px;border-radius: 30%" src="{{comment.username.Profile.profilepicture.url}}">
+		<strong><a href="u/{{ comment.username }}">{{ comment.username }}</a></strong>
+		<p>{{ comment.text|linebreaks }}</p>
+	</div>
+{% endfor %}
+
+
+{% endblock %}
