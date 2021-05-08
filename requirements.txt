@@ -43,7 +43,7 @@ django-timezone-field==4.0
 django-widget-tweaks==1.4.8
 djangorestframework==3.11.0
 dnspython==1.16.0
-eventlet==0.25.2
+eventlet==0.31.0
 filelock==3.0.12
 greenlet==0.4.15
 hiredis==1.0.1
